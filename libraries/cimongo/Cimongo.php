@@ -127,7 +127,6 @@ class Cimongo extends Cimongo_extras{
 				}
 			}
 		}
-		var_dump($this->wheres);die();
 		return $this;
 	}
 
