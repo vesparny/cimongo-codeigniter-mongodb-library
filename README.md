@@ -28,7 +28,8 @@ Available Functions
 	not_like		
 	or_not_like			
 	
-	limit				
+	limit	
+	offset
 	
 	order_by			
 	
