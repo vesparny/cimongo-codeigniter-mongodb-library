@@ -1,12 +1,13 @@
-A CodeIgniter library for interact with MongoDb.
+### A CodeIgniter library for interact with MongoDb.
+---------------------------------------------------
 
-Inspired by https://github.com/alexbilbie/codeigniter-mongodb-library
+	Inspired by https://github.com/alexbilbie/codeigniter-mongodb-library
+	
+	A bit more explained documentation will be soon available.
+	
+	Install like every other CI library
 
-A bit more explained documentation will be soon available.
-
-Install like every other CI library
-
---Under development---
+	--Under development---
 
 Available Functions
 -------------------
@@ -28,7 +29,8 @@ Available Functions
 	not_like		
 	or_not_like			
 	
-	limit				
+	limit	
+	offset
 	
 	order_by			
 	
