@@ -7,6 +7,8 @@ require_once('Cimongo_base.php');
  * A library to interact with the NoSQL database MongoDB.
  * For more information see http://www.mongodb.org
  *
+ * Inspired by https://github.com/alexbilbie/codeigniter-mongodb-library
+ *
  * @package		CodeIgniter
  * @author		Alessandro Arnodo | a.arnodo@gmail.com | @vesparny
  * @copyright	Copyright (c) 2012, Alessandro Arnodo.
