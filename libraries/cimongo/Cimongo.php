@@ -17,7 +17,7 @@ require_once('Cimongo_extras.php');
  */
 
 /**
- * Cimongo 
+ * Cimongo  
  *
  * Provide CI active record like methods to interact with MongoDB
  * @since v1.0
