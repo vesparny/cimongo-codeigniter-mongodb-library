@@ -105,7 +105,7 @@ class Cimongo_cursor extends MongoCursor
 			}
 		}
 		return $res;
-	}
+	} 
 
 	/**
 	 * Returns the document at the specified index as an array
