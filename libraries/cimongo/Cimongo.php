@@ -104,7 +104,19 @@ class Cimongo extends Cimongo_extras{
 					foreach ($value as $field => $field_value){
 						if(is_array($field_value)){
 							foreach($field_value as $value_admitted){
-								$this->wheres[$where][] = array($field => $value_admitted);
+								if(is_array($value_admitted)){
+									/* to handle something like this
+									 * $this->cimongo->where(array('$or'=>array("facebook.active"=>array(1,array('$gt'=>0)))))->get("users");
+									 * 
+									 */
+									$deep = array();
+									foreach($value_admitted as $v=>$a){
+										$deep[$v]=$a;
+										$this->wheres[$where][] = array($field => $deep);
+									}
+								}else{
+									$this->wheres[$where][] = array($field => $value_admitted);
+								}
 							}
 						}else{
 							$this->wheres[$where][] = array($field => $field_value);
@@ -115,6 +127,7 @@ class Cimongo extends Cimongo_extras{
 				}
 			}
 		}
+		var_dump($this->wheres);die();
 		return $this;
 	}
 
