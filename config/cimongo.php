@@ -7,6 +7,7 @@ $config['port'] = 27757;
 // The database you want to work on
 $config['db'] = "";
 // Required if Mongo is running in auth mode
+$config['user'] = "";
 $config['pass'] = "";
 
 /*  
