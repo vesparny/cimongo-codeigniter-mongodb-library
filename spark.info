@@ -1,4 +1,4 @@
 name: cimongo-lib
-version: 1.0.0.
+version: 1.0.0
 compatibility: 2.1.0
 tags: ["mongodb", "database", "nosql", "active record"]
