@@ -18,4 +18,6 @@ $config['query_safety'] = TRUE;
 
 //If running in auth mode and the user does not have global read/write then set this to true
 $config['db_flag'] = TRUE;
+
+//prova di pull request
  
