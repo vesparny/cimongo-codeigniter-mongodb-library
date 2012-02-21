@@ -1,4 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+require_once('Cimongo_base.php');
 /**
  * CodeIgniter MongoDB Library
  *
@@ -10,7 +11,7 @@
  * @copyright	Copyright (c) 2012, Alessandro Arnodo.
  * @license		http://www.opensource.org/licenses/mit-license.php
  * @link
- * @version		Version 1.0.0
+ * @version		Version 1.1.0
  *
  */
 
@@ -20,14 +21,14 @@
  * Cursor object, that behaves much like the MongoCursor, but permits to generating query results like CI
  * @since v1.0.0
  */
-class Cimongo_cursor extends MongoCursor
+class Cimongo_cursor extends Cimongo_base
 {
 	/**
 	 * @var MongoCursor $_cursor the MongoCursor returned by the query
 	 * @since v1.0.0
 	 */
 	protected $_cursor;
-
+	
 	/**
 	 * Construct a new Cimongo_extras
 	 *
@@ -49,16 +50,28 @@ class Cimongo_cursor extends MongoCursor
 			foreach ($this->_cursor as $doc){
 				$result[]=$as_object?$this->_array_to_object($doc):$doc;
 			}
-		}catch (MongoConnectionException  $exception){
-			show_error($exception->getMessage(), 500);
-		}
-		catch (MongoCursorTimeoutException  $exception){
-			show_error($exception->getMessage(), 500);
+		}catch (Exception  $exception){
+			return $this->_handle_exception($exception->getMessage(),$as_object);
 		}
 		return $result;
 
 	}
-
+	
+	/**
+	* Check if cursor is iterable, but maybe this could be done better FIXME
+	*
+	* @since v1.1.0
+	*/
+	public function has_error(){
+		try {
+			$this->_cursor->next();
+		}catch (Exception  $exception){
+			return $this->_handle_exception($exception->getMessage(),$as_object);
+		}
+		return FALSE;
+	
+	}
+	
 	/**
 	 * Returns query results as an array
 	 *

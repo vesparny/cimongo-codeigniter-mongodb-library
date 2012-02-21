@@ -10,7 +10,7 @@
  * @copyright	Copyright (c) 2012, Alessandro Arnodo.
  * @license		http://www.opensource.org/licenses/mit-license.php
  * @link
- * @version		Version 1.0.0
+ * @version		Version 1.1.0
  *
  */
 
@@ -91,7 +91,7 @@ class Cimongo_base {
 			}catch (Exception $e){
 				show_error("Unable to drop Mongo database `{$database}`: {$e->getMessage()}", 500);
 			}
-				
+
 		}
 	}
 
@@ -216,6 +216,24 @@ class Cimongo_base {
 		}
 	}
 
-}
+	/**
+	 * Handler for exception
+	 *
+	 * @since v1.1.0
+	 */
+	protected function _handle_exception($message,$as_object=TRUE){
+		if($as_object){
+			$res =  new stdClass();
+			$res->has_error=TRUE;
+			$res->error_message=$message;
+		}else{
+			$res =  array(
+				"has_error"=>TRUE,
+				"error_message"=>$message
+			);
+		}
+		return $res;
 
-// EOF
+	}
+
+}

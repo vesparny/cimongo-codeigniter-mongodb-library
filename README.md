@@ -1,6 +1,7 @@
 ### A CodeIgniter library for interact with MongoDb.
 ---------------------------------------------------
-
+	VERSION 1.1 STABLE
+	
 	Inspired by https://github.com/alexbilbie/codeigniter-mongodb-library
 	
 	A bit more explained documentation will be soon available.
@@ -19,7 +20,7 @@ Available Functions
 	
 	select				
 	
-	where				
+	where		-> take a look at the comment in the code for usage details		
 	or_where			
 	where_in		
 	or_where_in
@@ -49,7 +50,8 @@ Available Functions
 
 ### Result Helper
 
-	num_rows		
+	num_rows
+	has_error		
 
 ### Modifying Data
 

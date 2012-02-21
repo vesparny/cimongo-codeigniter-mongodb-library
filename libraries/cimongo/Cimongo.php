@@ -12,12 +12,12 @@ require_once('Cimongo_extras.php');
  * @copyright	Copyright (c) 2012, Alessandro Arnodo.
  * @license		http://www.opensource.org/licenses/mit-license.php
  * @link
- * @version		Version 1.0.0
+ * @version		Version 1.1.0
  *
  */
 
 /**
- * Cimongo  
+ * Cimongo
  *
  * Provide CI active record like methods to interact with MongoDB
  * @since v1.0
@@ -40,6 +40,7 @@ class Cimongo extends Cimongo_extras{
 	 */
 	public function get($collection = "", $limit = FALSE, $offset = FALSE){
 		if (empty($collection)){
+			//FIXME theow exception instead show error
 			show_error("In order to retreive documents from MongoDB, a collection name must be passed", 500);
 		}
 		$cursor = $this->db->{$collection}->find($this->wheres, $this->selects);
@@ -89,42 +90,37 @@ class Cimongo extends Cimongo_extras{
 	}
 
 	/**
-	 * where clause
+	 * where clause:
+	 *
+	 * Passa an array of field=>value, every condition will be merged in AND statement
 	 * e.g.:
-	 * @usage $this->cimongo->where(array('$or'=> array('active'=>array(1,0))->get("users")
-	 * @usage $this->cimongo->where(array('date'=> array('$gt'=>new MongoDate())->get("users")
+	 * $this->cimongo->where(array('foo'=> 'bar', 'user'=>'arny')->get("users")
+	 *
+	 * if you need more complex clause you can pass an array composed exactly like mongoDB needs, followed by a boolean TRUE parameter.
+	 * e.g.:
+	 * $where_clause = array(
+	 * 						'$or'=>array(
+	 *							array("user"=>'arny'),
+	 *							array("facebook.id"=>array('$gt'=>1,'$lt'=>5000)),
+	 * 							array('faceboo.usernamek'=>new MongoRegex("/^arny.$/"))
+	 *	 					),
+	 * 						email"=>"a.arnodo@gmail.com"
+	 * 					);
+	 *
+	 *
+	 * $this->cimongo->where($where_clause, TRUE)->get("users")
 	 *
 	 * @since v1.0.0
+	 *
+	 *
 	 */
-	public function where($wheres = array()){
-		if(is_array($wheres)){
+	public function where($wheres = array(), $native = FALSE){
+		if($native === TRUE && is_array($wheres)){
+			$this->wheres = $wheres;
+		}elseif(is_array($wheres)){
 			foreach ($wheres as $where => $value){
 				$this->_where_init($where);
-				if($where==='$or' || $where==='$and'){
-					foreach ($value as $field => $field_value){
-						if(is_array($field_value)){
-							foreach($field_value as $value_admitted){
-								if(is_array($value_admitted)){
-									/* to handle something like this
-									 * $this->cimongo->where(array('$or'=>array("facebook.active"=>array(1,array('$gt'=>0)))))->get("users");
-									 * 
-									 */
-									$deep = array();
-									foreach($value_admitted as $v=>$a){
-										$deep[$v]=$a;
-										$this->wheres[$where][] = array($field => $deep);
-									}
-								}else{
-									$this->wheres[$where][] = array($field => $value_admitted);
-								}
-							}
-						}else{
-							$this->wheres[$where][] = array($field => $field_value);
-						}
-					}
-				}else{
-					$this->wheres[$where] = $value;
-				}
+				$this->wheres[$where] = $value;
 			}
 		}
 		return $this;
@@ -220,7 +216,7 @@ class Cimongo extends Cimongo_extras{
 	 */
 	public function or_like($field, $like = array()) {
 		$this->_where_init('$or');
-		if (count($like) > 0){
+		if (is_array($like) && count($like) > 0){
 			foreach ($like as $admitted){
 				$this->wheres['$or'][] = array($field => new MongoRegex("/$admitted/"));
 			}
@@ -236,7 +232,7 @@ class Cimongo extends Cimongo_extras{
 	 */
 	public function not_like($field, $like = array()) {
 		$this->_where_init($field);
-		if (count($like) > 0){
+		if (is_array($like) && count($like) > 0){
 			foreach ($like as $admitted){
 				$this->wheres[$field]['$nin'][] = new MongoRegex("/$admitted/");
 			}

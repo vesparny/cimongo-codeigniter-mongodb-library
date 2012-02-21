@@ -14,7 +14,7 @@ require_once('Cimongo_base.php');
  * @copyright	Copyright (c) 2012, Alessandro Arnodo.
  * @license		http://www.opensource.org/licenses/mit-license.php
  * @link
- * @version		Version 1.0.0
+ * @version		Version 1.1.0
  *
  */
 

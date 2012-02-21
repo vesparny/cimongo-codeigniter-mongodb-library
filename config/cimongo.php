@@ -3,7 +3,7 @@
 // Generally localhost
 $config['host'] = "";
 // Generally 27017
-$config['port'] = 27757;
+$config['port'] = 27017;
 // The database you want to work on
 $config['db'] = "";
 // Required if Mongo is running in auth mode
