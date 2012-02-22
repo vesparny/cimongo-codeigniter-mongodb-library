@@ -446,4 +446,18 @@ class Cimongo extends Cimongo_extras{
 		}
 
 	}
+	
+	/**
+	*
+	* Limit results
+	*
+	*   @since v1.1.0
+	*/
+	public function limit($num = FALSE){
+		if ($num && is_numeric($num)){
+			$this->limit = $num;
+		}
+		return $this;
+	}
+	
 }
