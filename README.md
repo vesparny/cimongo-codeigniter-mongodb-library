@@ -31,7 +31,6 @@ Available Functions
 	or_not_like			
 	
 	limit	
-	offset
 	
 	order_by			
 	
@@ -45,7 +44,9 @@ Available Functions
 	result_object		
 	
 	row					
-	row_array			
+	row_array	
+
+	insert_id		
 	
 
 ### Result Helper
