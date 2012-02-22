@@ -23,6 +23,8 @@ require_once('Cimongo_extras.php');
  * @since v1.0
  */
 class Cimongo extends Cimongo_extras{
+	
+	private $_inserted_id = FALSE;
 
 	/**
 	 * Construct a new Cimongo
@@ -318,11 +320,12 @@ class Cimongo extends Cimongo_extras{
 		if (count($insert) == 0){
 			show_error("Nothing to insert into Mongo collection or insert is not an array", 500);
 		}
-
+		$this->_inserted_id = FALSE;
 		try{
 			$query = $this->db->{$collection}->insert($insert, array("safe" => $this->query_safety));
 			if (isset($insert['_id'])){
-				return ($insert['_id']);
+				$this->_inserted_id = $insert['_id'];
+				return TRUE;
 			}
 			else{
 				return FALSE;
@@ -458,6 +461,16 @@ class Cimongo extends Cimongo_extras{
 			$this->limit = $num;
 		}
 		return $this;
+	}
+	
+	/**
+	*
+	* Returns the last inserted document's id
+	*
+	*   @since v1.1.0
+	*/
+	public function insert_id(){
+		return $this->_inserted_id;
 	}
 	
 }
