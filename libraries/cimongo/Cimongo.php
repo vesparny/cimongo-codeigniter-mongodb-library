@@ -47,8 +47,9 @@ class Cimongo extends Cimongo_extras{
 		}
 		$cursor = $this->db->{$collection}->find($this->wheres, $this->selects);
 		$cimongo_cursor = new Cimongo_cursor($cursor);
-		if($limit!==FALSE){
-			$this->limit = $limit;
+		
+		$this->limit=($limit!==FALSE)?$limit:$this->limit;
+		if($this->limit!==FALSE){
 			$cimongo_cursor->limit($this->limit);
 		}
 			
@@ -374,13 +375,15 @@ class Cimongo extends Cimongo_extras{
 	 *
 	 * Sets a field to a value
 	 *
-	 *	@usage: $this->cimongo->where(array('blog_id'=>123))->set('posted', 1)->update('users');
+	 *	@usage: $this->cimongo->where(array('blog_id'=>123))->set(array('posted'=>1)->update('users');
 	 *   @since v1.0.0
 	 */
 	public function set($fields = array()){
-		$this->_update_init('$set');
-		foreach ($fields as $field => $value){
-			$this->updates['$set'][$field] = $value;
+		if(is_array($fields)){
+			$this->_update_init('$set');
+			foreach ($fields as $field => $value){
+				$this->updates['$set'][$field] = $value;
+			}
 		}
 		return $this;
 	}
