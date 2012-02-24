@@ -275,7 +275,7 @@ class Cimongo_extras extends Cimongo_base{
 				$this->updates['$inc'][$field] = $value;
 			}
 		}
-		return $this;
+		return $this; 
 	}
 
 	/**
@@ -323,7 +323,7 @@ class Cimongo_extras extends Cimongo_base{
 		if (is_string($values)){
 			$this->updates['$addToSet'][$field] = $values;
 		}elseif (is_array($values)){
-			$this->updates['$attToSet'][$field] = array('$each' => $values);
+			$this->updates['$addToSet'][$field] = array('$each' => $values);
 		}
 		return $this;
 	}
