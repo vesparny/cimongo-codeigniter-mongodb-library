@@ -283,12 +283,12 @@ class Cimongo_extras extends Cimongo_base{
 	 *  @since v1.0.0
 	 */
 	public function dec($fields = array(), $value = 0){
-		$this->_update_init('$inc');
+		$this->_update_init('$dec');
 		if (is_string($fields)){
-			$this->updates['$inc'][$fields] = $value;
+			$this->updates['$dec'][$fields] = $value;
 		}elseif (is_array($fields)){
 			foreach ($fields as $field => $value){
-				$this->updates['$inc'][$field] = $value;
+				$this->updates['$dec'][$field] = $value;
 			}
 		}
 		return $this;
