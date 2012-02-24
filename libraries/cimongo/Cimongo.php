@@ -53,10 +53,12 @@ class Cimongo extends Cimongo_extras{
 			$cimongo_cursor->limit($this->limit);
 		}
 			
-		if($offset!==FALSE){
-			$this->offset = $offset;
-			$cimongo_cursor->skip($this->offset);
+		$this->offset=($offset!==FALSE)?$offset:$this->offset;
+		
+		if($this->offset!==FALSE){
+		$cimongo_cursor->skip($this->offset);
 		}
+		
 		if(!empty($this->sorts) && count($this->sorts)>0){
 			$cimongo_cursor->sort($this->sorts);
 		}
@@ -155,6 +157,17 @@ class Cimongo extends Cimongo_extras{
 		return $this;
 	}
 
+	/**
+	 * Get all the documents where the value of a $field is in a given $in array().
+	 * MY OWN ROUTINE
+	 *
+	 * @since v1.0.0
+	 */
+	public function where_in_all($field = "", $in = array()){
+		$this->_where_init($field);
+		$this->wheres[$field]['$all'] = $in;
+		return ($this);
+	}
 
 	/**
 	 * Get the documents where the value of a $field is not in a given $in array().
@@ -462,6 +475,19 @@ class Cimongo extends Cimongo_extras{
 	public function limit($num = FALSE){
 		if ($num && is_numeric($num)){
 			$this->limit = $num;
+		}
+		return $this;
+	}
+	
+	/**
+	*
+	* Offset results
+	*
+	*   @since v1.1.0
+	*/
+	public function offset($num = FALSE){
+		if ($num && is_numeric($num)){
+			$this->offset = $num;
 		}
 		return $this;
 	}
