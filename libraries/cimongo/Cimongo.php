@@ -48,13 +48,13 @@ class Cimongo extends Cimongo_extras{
 		$cursor = $this->db->{$collection}->find($this->wheres, $this->selects);
 		$cimongo_cursor = new Cimongo_cursor($cursor);
 		
-		$this->limit=($limit!==FALSE)?$limit:$this->limit;
+		$this->limit=($limit!==FALSE && is_numeric($limit))?$limit:$this->limit;
 		if($this->limit!==FALSE){
 			$cimongo_cursor->limit($this->limit);
 		}
 			
-		if($offset!==FALSE){
-			$this->offset = $offset;
+		$this->offset=($offset!==FALSE && is_numeric($offset))?$offset:$this->offset;
+		if($this->offset!==FALSE){
 			$cimongo_cursor->skip($this->offset);
 		}
 		if(!empty($this->sorts) && count($this->sorts)>0){
@@ -459,7 +459,7 @@ class Cimongo extends Cimongo_extras{
 	*
 	*   @since v1.1.0
 	*/
-	public function limit($num = FALSE){
+	public function limit($limit = FALSE, $offset = FALSE){
 		if ($num && is_numeric($num)){
 			$this->limit = $num;
 		}

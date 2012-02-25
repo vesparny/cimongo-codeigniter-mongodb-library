@@ -197,7 +197,7 @@ class Cimongo_cursor extends Cimongo_base
 			foreach ($array as $name=>$value) {
 				$name = strtolower(trim($name));
 				if (!empty($name)) {
-					$object->$name = $this->_array_to_object($value);
+					$object->$name = $value;
 				}
 			}
 			return $object;
