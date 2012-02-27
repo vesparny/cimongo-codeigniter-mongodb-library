@@ -275,7 +275,7 @@ class Cimongo_extras extends Cimongo_base{
 				$this->updates['$inc'][$field] = $value;
 			}
 		}
-		return $this; 
+		return $this;
 	}
 
 	/**

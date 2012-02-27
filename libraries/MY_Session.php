@@ -23,14 +23,19 @@
  */
 class MY_Session extends CI_Session {
 
+	protected $sess_use_mongo = FALSE;
+	protected $sess_collection_name = FALSE;
+
 	public function __construct($rules = array())
 	{
 		log_message('debug', '*** Hello from MY_Session ***');
-
 		$this->CI =& get_instance();
+		$this->CI->load->config('cimongo');
+		$this->sess_use_mongo = $this->CI->config->item('sess_use_mongo');
+		$this->sess_collection_name = $this->CI->config->item('sess_collection_name');
 		$this->CI->load->library("cimongo/cimongo");
 		parent::__construct();
-		 
+			
 	}
 
 	/**
@@ -103,7 +108,7 @@ class MY_Session extends CI_Session {
 		}
 
 		// Is there a corresponding session in the DB?
-		if ($this->sess_use_database === TRUE)
+		if ($this->sess_use_mongo === TRUE)
 		{
 			$this->CI->cimongo->where(array('session_id'=>$session['session_id']));
 
@@ -114,10 +119,10 @@ class MY_Session extends CI_Session {
 
 			if ($this->sess_match_useragent == TRUE)
 			{
-				$this->CI->db->where(array('user_agent'=>$session['user_agent']));
+				$this->CI->cimongo->where(array('user_agent'=>$session['user_agent']));
 			}
 
-			$query = $this->CI->cimongo->get($this->sess_table_name);
+			$query = $this->CI->cimongo->get($this->sess_collection_name);
 
 			// No result?  Kill it!
 			if ($query->num_rows() == 0)
@@ -159,7 +164,7 @@ class MY_Session extends CI_Session {
 	function sess_write()
 	{
 		// Are we saving custom data to the DB?  If not, all we do is update the cookie
-		if ($this->sess_use_database === FALSE)
+		if ($this->sess_use_mongo === FALSE)
 		{
 			$this->_set_cookie();
 			return;
@@ -192,7 +197,7 @@ class MY_Session extends CI_Session {
 
 		// Run the update query
 		$this->CI->cimongo->where(array('session_id'=>$this->userdata['session_id']));
-		$this->CI->cimongo->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+		$this->CI->cimongo->update($this->sess_collection_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
 
 		// Write the cookie.  Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
@@ -227,9 +232,9 @@ class MY_Session extends CI_Session {
 
 
 		// Save the data to the DB if needed
-		if ($this->sess_use_database === TRUE)
+		if ($this->sess_use_mongo === TRUE)
 		{
-			$this->CI->cimongo->insert($this->sess_table_name, $this->userdata);
+			$this->CI->cimongo->insert($this->sess_collection_name, $this->userdata);
 		}
 
 		// Write the cookie
@@ -275,7 +280,7 @@ class MY_Session extends CI_Session {
 		$cookie_data = NULL;
 
 		// Update the session ID and last_activity field in the DB if needed
-		if ($this->sess_use_database === TRUE)
+		if ($this->sess_use_mongo === TRUE)
 		{
 			// set cookie explicitly to only have our session data
 			$cookie_data = array();
@@ -284,7 +289,7 @@ class MY_Session extends CI_Session {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
 
-			$this->CI->cimongo->where(array("session_id"=>$old_sessid))->update($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid));
+			$this->CI->cimongo->where(array("session_id"=>$old_sessid))->update($this->sess_collection_name, array('last_activity' => $this->now, 'session_id' => $new_sessid));
 		}
 
 		// Write the cookie
@@ -300,20 +305,20 @@ class MY_Session extends CI_Session {
 	function sess_destroy()
 	{
 		// Kill the session DB row
-		if ($this->sess_use_database === TRUE AND isset($this->userdata['session_id']))
+		if ($this->sess_use_mongo === TRUE AND isset($this->userdata['session_id']))
 		{
 			$this->CI->cimongo->where(array('session_id'=>$this->userdata['session_id']));
-			$this->CI->cimongo->delete($this->sess_table_name);
+			$this->CI->cimongo->delete($this->sess_collection_name);
 		}
 
 		// Kill the cookie
 		setcookie(
-				$this->sess_cookie_name,
-				addslashes(serialize(array())),
-				($this->now - 31500000),
-				$this->cookie_path,
-				$this->cookie_domain,
-				0
+		$this->sess_cookie_name,
+		addslashes(serialize(array())),
+		($this->now - 31500000),
+		$this->cookie_path,
+		$this->cookie_domain,
+		0
 		);
 	}
 
@@ -329,7 +334,7 @@ class MY_Session extends CI_Session {
 	 */
 	function _sess_gc()
 	{
-		if ($this->sess_use_database != TRUE)
+		if ($this->sess_use_mongo != TRUE)
 		{
 			return;
 		}
@@ -339,8 +344,9 @@ class MY_Session extends CI_Session {
 		{
 			$expire = $this->now - $this->sess_expiration;
 
+
 			$this->CI->cimongo->where(array("last_activity" =>array('$lt'=>$expire)));
-			$this->CI->cimongo->delete($this->sess_table_name);
+			$this->CI->cimongo->delete($this->sess_collection_name);
 
 			log_message('debug', 'Session garbage collection performed.');
 		}

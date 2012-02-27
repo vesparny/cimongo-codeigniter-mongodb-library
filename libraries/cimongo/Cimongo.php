@@ -23,7 +23,7 @@ require_once('Cimongo_extras.php');
  * @since v1.0
  */
 class Cimongo extends Cimongo_extras{
-	
+
 	private $_inserted_id = FALSE;
 
 	/**
@@ -47,7 +47,7 @@ class Cimongo extends Cimongo_extras{
 		}
 		$cursor = $this->db->{$collection}->find($this->wheres, $this->selects);
 		$cimongo_cursor = new Cimongo_cursor($cursor);
-		
+
 		$this->limit=($limit!==FALSE && is_numeric($limit))?$limit:$this->limit;
 		if($this->limit!==FALSE){
 			$cimongo_cursor->limit($this->limit);
@@ -452,28 +452,28 @@ class Cimongo extends Cimongo_extras{
 		}
 
 	}
-	
+
 	/**
-	*
-	* Limit results
-	*
-	*   @since v1.1.0
-	*/
+	 *
+	 * Limit results
+	 *
+	 *   @since v1.1.0
+	 */
 	public function limit($limit = FALSE){
 		if ($limit && is_numeric($limit)){
 			$this->limit = $limit;
 		}
 		return $this;
 	}
-	
+
 	/**
-	*
-	* Returns the last inserted document's id
-	*
-	*   @since v1.1.0
-	*/
+	 *
+	 * Returns the last inserted document's id
+	 *
+	 *   @since v1.1.0
+	 */
 	public function insert_id(){
 		return $this->_inserted_id;
 	}
-	
+
 }

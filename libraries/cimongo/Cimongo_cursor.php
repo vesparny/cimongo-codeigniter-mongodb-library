@@ -28,7 +28,7 @@ class Cimongo_cursor extends Cimongo_base
 	 * @since v1.0.0
 	 */
 	protected $_cursor;
-	
+
 	/**
 	 * Construct a new Cimongo_extras
 	 *
@@ -56,12 +56,12 @@ class Cimongo_cursor extends Cimongo_base
 		return $result;
 
 	}
-	
+
 	/**
-	* Check if cursor is iterable, but maybe this could be done better FIXME
-	*
-	* @since v1.1.0
-	*/
+	 * Check if cursor is iterable, but maybe this could be done better FIXME
+	 *
+	 * @since v1.1.0
+	 */
 	public function has_error(){
 		try {
 			$this->_cursor->next();
@@ -69,9 +69,9 @@ class Cimongo_cursor extends Cimongo_base
 			return $this->_handle_exception($exception->getMessage(),$as_object);
 		}
 		return FALSE;
-	
+
 	}
-	
+
 	/**
 	 * Returns query results as an array
 	 *
@@ -118,7 +118,7 @@ class Cimongo_cursor extends Cimongo_base
 			}
 		}
 		return $res;
-	} 
+	}
 
 	/**
 	 * Returns the document at the specified index as an array
@@ -173,6 +173,8 @@ class Cimongo_cursor extends Cimongo_base
 		$count = array();
 		try {
 			$count = $this->_cursor->count($foundOnly);
+		}catch (MongoCursorException $exception){
+			show_error($exception->getMessage(), 500);
 		}catch (MongoConnectionException $exception){
 			show_error($exception->getMessage(), 500);
 		}
