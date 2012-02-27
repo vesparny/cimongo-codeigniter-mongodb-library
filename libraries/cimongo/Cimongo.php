@@ -306,7 +306,7 @@ class Cimongo extends Cimongo_extras{
 			$cimongo_cursor->skip($this->offset);
 		}
 		$this->_clear();
-		return $cimongo_cursor->count(TRUE);
+		return $cimongo_cursor->count(TRUE); 
 	}
 
 	/**
