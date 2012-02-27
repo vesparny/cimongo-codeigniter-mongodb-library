@@ -299,12 +299,14 @@ class Cimongo extends Cimongo_extras{
 
 		$cursor = $this->db->{$collection}->find($this->wheres);
 		$cimongo_cursor = new Cimongo_cursor($cursor);
-		if($limit!==FALSE){
-			$this->limit = $limit;
-			$count = $cimongo_cursor->limit($this->limit)->count(TRUE);
+		if($this->limit!==FALSE){
+			$cimongo_cursor->limit($this->limit);
+		}
+		if($this->offset!==FALSE){
+			$cimongo_cursor->skip($this->offset);
 		}
 		$this->_clear();
-		return $count;
+		return $cimongo_cursor->count(TRUE);
 	}
 
 	/**

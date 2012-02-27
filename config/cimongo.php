@@ -1,14 +1,14 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Generally localhost
-$config['host'] = "localhost";
+$config['host'] = "dbh75.mongolab.com";
 // Generally 27017
-$config['port'] = 27017;
+$config['port'] = 27757;
 // The database you want to work on
-$config['db'] = "";
+$config['db'] = "thegabbia";
 // Required if Mongo is running in auth mode
-$config['user'] = "";
-$config['pass'] = "";
+$config['user'] = "arny";
+$config['pass'] = "arny";
 
 /*  
  * Defaults to FALSE. If FALSE, the program continues executing without waiting for a database response. 
@@ -19,9 +19,8 @@ $config['query_safety'] = TRUE;
 //If running in auth mode and the user does not have global read/write then set this to true
 $config['db_flag'] = TRUE;
 
-/*
- *Consider these config only if you want to store the session into mongoDB, they will be used in MY_Session.php
-*/
+//consider these config only if you want to store the session into mongoDB
+//They will be used in MY_Session.php
 $config['sess_use_mongo'] = TRUE;
 $config['sess_collection_name']	= 'ci_sessions';
  
