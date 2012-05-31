@@ -460,7 +460,7 @@ class Cimongo extends Cimongo_extras{
 	 *
 	 * Delete more than one document
 	 *
-	 *   @since v1.2.0
+	 *   @since v1.3.0
 	 */
 	public function delete_batch($collection = "", $options = array()){
 		return $this->delete($collection , array('justOne' => FALSE));

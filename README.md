@@ -1,6 +1,6 @@
 ### A CodeIgniter library for interact with MongoDb.
 ---------------------------------------------------
-	VERSION 1.2.0 STABLE
+	VERSION 1.3.0 STABLE
 	
 	Inspired by https://github.com/alexbilbie/codeigniter-mongodb-library
 	
