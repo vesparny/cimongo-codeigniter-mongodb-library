@@ -61,7 +61,8 @@ Available Functions
 	insert_batch		
 	update				
 	update_batch		
-	delete				
+	delete
+	delete_batch
 	
 ### Extra methods
 	command
