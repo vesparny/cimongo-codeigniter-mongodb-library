@@ -428,7 +428,7 @@ class Cimongo extends Cimongo_extras{
 	 *
 	 *   @since v1.0.0
 	 */
-	public function update_batch($collection = "", $data = array(), $options = array()){
+	public function update_batch($collection = "", $data = array()){
 		return $this->update($collection, $data , array('multiple' => TRUE));
 	}
 
@@ -439,12 +439,13 @@ class Cimongo extends Cimongo_extras{
 	 *
 	 *   @since v1.0.0
 	 */
-	public function delete($collection = ""){
+	public function delete($collection = "", $options = array()){
 		if (empty($collection)){
 			show_error("No Mongo collection selected to delete from", 500);
 		}
 		try{
-			$this->db->{$collection}->remove($this->wheres, array("safe" => $this->query_safety));
+			$options = array_merge(array("safe" => $this->query_safety),$options);
+			$this->db->{$collection}->remove($this->wheres, $options);
 			$this->_clear();
 			return TRUE;
 		}catch (MongoCursorException $e){
@@ -453,6 +454,16 @@ class Cimongo extends Cimongo_extras{
 			show_error("Delete of data into MongoDB failed: {$e->getMessage()}", 500);
 		}
 
+	}
+	
+	/**
+	 *
+	 * Delete more than one document
+	 *
+	 *   @since v1.2.0
+	 */
+	public function delete_batch($collection = "", $options = array()){
+		return $this->delete($collection , array('justOne' => FALSE));
 	}
 
 	/**
