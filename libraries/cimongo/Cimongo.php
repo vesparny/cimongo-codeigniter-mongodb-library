@@ -402,7 +402,7 @@ class Cimongo extends Cimongo_extras{
 		}
 		if (is_array($data) && count($data) > 0){
 			$this->_update_init('$set');
-			$this->updates['$set'] = array_merge($this->updates['$set'], $data);
+			$this->updates['$set'] += $data;
 		}
 		if (count($this->updates) == 0){
 			show_error("Nothing to update in Mongo collection or update is not an array", 500);
