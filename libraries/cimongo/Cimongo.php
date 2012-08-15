@@ -34,7 +34,11 @@ class Cimongo extends Cimongo_extras{
 	public function __construct(){
 		parent::__construct();
 	}
-
+	/**
+	*Fake close function so you can bind $this->db=$this->cimongo
+	 *
+	 */
+	public function close(){}	 
 	/**
 	 * Get the documents based upon the passed parameters
 	 *
