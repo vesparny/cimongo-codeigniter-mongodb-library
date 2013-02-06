@@ -91,3 +91,14 @@ Available Functions
 	pop
 	rename_field
 	
+	Author
+------------------- 
+
+####Alessandro Arnodo
+
++	[@vesparny](https://twitter.com/vesparny)
+
++	[http://alessandro.arnodo.net](http://alessandro.arnodo.net)
+
++	<mailto:alessandro@arnodo.net>
+	
