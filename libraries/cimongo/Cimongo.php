@@ -28,6 +28,7 @@ require_once('Cimongo_extras.php');
 class Cimongo extends Cimongo_extras {
 
         private $_inserted_id = FALSE;
+        public $debug = FALSE;
 
         /**
          * Construct a new Cimongo
