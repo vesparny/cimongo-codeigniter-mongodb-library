@@ -51,14 +51,18 @@ class Cimongo extends Cimongo_extras {
          *
          * @since v1.0.0
          */
-        public function get($collection = "", $limit = FALSE, $offset = FALSE) {
+        public function get($collection = "", $limit = FALSE, $offset = FALSE, $random=FALSE) {
                 if (empty($collection)) {
                         //FIXME theow exception instead show error
                         show_error("In order to retreive documents from MongoDB, a collection name must be passed", 500);
                 }
                 $cursor = $this->db->selectCollection($collection)->find($this->wheres, $this->selects);
                 $cimongo_cursor = new Cimongo_cursor($cursor);
-
+                
+                if($random){ 
+                   	$cimongo_cursor->skip(rand(0,($cursor->count()-1)));
+                }
+				
                 $this->limit = ($limit !== FALSE && is_numeric($limit)) ? $limit : $this->limit;
                 if ($this->limit !== FALSE) {
                         $cimongo_cursor->limit($this->limit);
