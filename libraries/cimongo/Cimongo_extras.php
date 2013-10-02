@@ -56,6 +56,25 @@ class Cimongo_extras extends Cimongo_base{
 	}
 
 	/**
+	*   Runs a MongoDB Aggregate.
+	*  See the MongoDB documentation for more usage scenarios:
+	*  http://docs.mongodb.org/manual/core/aggregation
+	*   @usage : $this->cimongo->aggregate('users', array(array('$project' => array('_id' => 1))));
+	*   @since v1.0.0
+	*/
+	public function aggregate($collection = "", $opt) {
+		if (empty($collection)) {
+			show_error("No Mongo collection selected to insert into", 500);
+		}
+		try{
+			$c = $this->db->selectCollection($collection);
+			return $c->aggregate($opt);
+		} catch (MongoException $e) {
+			show_error("MongoDB failed: {$e->getMessage()}", 500);
+		}
+	}
+
+	/**
 	 *	Ensure an index of the keys in a collection with optional parameters. To set values to descending order,
 	 *	you must pass values of either -1, FALSE, 'desc', or 'DESC', else they will be
 	 *	set to 1 (ASC).
