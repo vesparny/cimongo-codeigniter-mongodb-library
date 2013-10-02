@@ -28,6 +28,7 @@ require_once('Cimongo_extras.php');
 class Cimongo extends Cimongo_extras {
 
         private $_inserted_id = FALSE;
+        public $debug = FALSE;
 
         /**
          * Construct a new Cimongo
@@ -227,13 +228,15 @@ class Cimongo extends Cimongo_extras {
          *
          * @since v1.0.0
          */
-        public function or_like($field, $like = array()) {
+        public function or_like($field, $like = array(),$flags = "i") {
                 $this->_where_init('$or');
-                if (is_array($like) && count($like) > 0) {
-                        foreach ($like as $admitted) {
-                                $this->wheres['$or'][] = array($field => new MongoRegex("/$admitted/"));
+                        if (is_array($like) && count($like) > 0) {
+                                foreach ($like as $admitted) {
+                                $this->wheres['$or'][] = array($field => new MongoRegex("/$admitted/$flags"));
+                                }
+                        } else {
+                        $this->wheres['$or'][] = array($field => new MongoRegex("/$like/$flags"));
                         }
-                }
                 return $this;
         }
 
