@@ -434,6 +434,38 @@ class Cimongo extends Cimongo_extras {
         public function update_batch($collection = "", $data = array()) {
                 return $this->update($collection, $data, array('multiple' => TRUE));
         }
+        
+	/**
+	 *
+	 * Insert document when the _id is not passed in array
+	 * update document when the _id is passed in array 
+	 *
+	 */
+        public function save($collection = "", $save = array()){ 
+                if (empty($collection)) {
+                        show_error("No Mongo collection selected to insert into", 500);
+                }
+
+                if (count($save) == 0) {
+                        show_error("Nothing to save into Mongo collection or save is not an array", 500);
+                }
+				
+                $this->_inserted_id = isset($save['_id']);
+				
+                try {
+                        $query = $this->db->selectCollection($collection)->save($save);
+                        if (isset($save['_id'])) {
+                                $this->_inserted_id = $this->_inserted_id?FALSE:$save['_id'];
+                                return TRUE;
+                        } else {
+                                return FALSE;
+                        }
+                } catch (MongoException $e) {
+                        show_error("Save of data into MongoDB failed: {$e->getMessage()}", 500);
+                } catch (MongoCursorException $e) {
+                        show_error("Save of data into MongoDB failed: {$e->getMessage()}", 500);
+                }
+        }	
 
         /**
          *
