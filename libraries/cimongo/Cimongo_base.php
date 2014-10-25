@@ -10,7 +10,7 @@
  * @copyright	Copyright (c) 2012, Alessandro Arnodo.
  * @license		http://www.opensource.org/licenses/mit-license.php
  * @link
- * @version		Version 1.1.0
+ * @version		Version 1.1.1
  *
  */
 
@@ -128,7 +128,7 @@ class Cimongo_base {
 	private function connect(){
 		$options = array();
 		try{
-			$this->connection = new Mongo($this->connection_string, $options);
+			$this->connection = new MongoClient($this->connection_string, $options);
 			$this->db = $this->connection->{$this->dbname};
 			return $this;
 		}catch (MongoConnectionException $e){
