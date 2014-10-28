@@ -334,7 +334,7 @@ class Cimongo extends Cimongo_extras {
                 }
                 $this->_inserted_id = FALSE;
                 try {
-                        $query = $this->db->selectCollection($collection)->insert($insert, array("safe" => $this->query_safety));
+                        $query = $this->db->selectCollection($collection)->insert($insert, array("w" => $this->query_safety));
                         if (isset($insert['_id'])) {
                                 $this->_inserted_id = $insert['_id'];
                                 return TRUE;
@@ -362,7 +362,7 @@ class Cimongo extends Cimongo_extras {
                         show_error("Nothing to insert into Mongo collection or insert is not an array", 500);
                 }
                 try {
-                        $query = $this->db->selectCollection($collection)->batchInsert($insert, array("safe" => $this->query_safety));
+                        $query = $this->db->selectCollection($collection)->batchInsert($insert, array("w" => $this->query_safety));
                         if (is_array($query)) {
                                 return $query["err"] === NULL;
                         } else {
@@ -412,7 +412,7 @@ class Cimongo extends Cimongo_extras {
                         show_error("Nothing to update in Mongo collection or update is not an array", 500);
                 }
                 try {
-                        $options = array_merge(array("safe" => $this->query_safety, 'multiple' => FALSE), $options);
+                        $options = array_merge(array("w" => $this->query_safety, 'multiple' => FALSE), $options);
                         $this->db->selectCollection($collection)->update($this->wheres, $this->updates, $options);
                         $this->_clear();
                         return TRUE;
@@ -446,7 +446,7 @@ class Cimongo extends Cimongo_extras {
                         show_error("No Mongo collection selected to delete from", 500);
                 }
                 try {
-                        $options = array_merge(array("safe" => $this->query_safety), $options);
+                        $options = array_merge(array("w" => $this->query_safety), $options);
                         $this->db->selectCollection($collection)->remove($this->wheres, $options);
                         $this->_clear();
                         return TRUE;
