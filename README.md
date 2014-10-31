@@ -1,3 +1,5 @@
+# PLEASE NOTE, THIS PROJECT IS NO LONGER BEING MAINTAINED
+
 ### A CodeIgniter library for interact with MongoDb.
 ---------------------------------------------------
 	VERSION 1.3.0 STABLE
