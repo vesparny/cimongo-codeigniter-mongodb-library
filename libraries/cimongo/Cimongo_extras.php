@@ -228,6 +228,21 @@ class Cimongo_extras extends Cimongo_base{
         return $date;
     }
 
+    /**
+     * Utility function to generate a 'MongoBinData' object to store a file as part of a document.
+     * You must pass the binary data of the file and not a file path.
+     * 
+     * @param   string          The content of the file to store
+     * @return  MongoBinData    A ready-to-store representation of the binary data
+     * @access  public
+     */
+    public function generate_bindata( $contents ) {
+        if(empty($contents)) {
+            show_error('You must provide the contents a file to this function', 500);
+        }
+        return new MongoBinData( $contents );
+    }
+
 	/**
 	 *	Get the documents where the value of a $field is greater than $x
 	 *  @since v1.0.0
