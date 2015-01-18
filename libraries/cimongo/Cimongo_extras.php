@@ -200,7 +200,8 @@ class Cimongo_extras extends Cimongo_base{
 	}
 
 	/**
-     * Utility function that generates a MongoID instance
+     * Utility function that generates a MongoID instance.
+     * Original inspiration from https://github.com/chuckcfs/CodeIgniter-MongoDB
      *
      * @param   string          The string representation of the desired ID object
      * @return  MongoId
@@ -208,6 +209,23 @@ class Cimongo_extras extends Cimongo_base{
      */
     public function generate_id($id) {
         return new MongoId($id);
+    }
+
+    /**
+     * Utility function to generate a 'MongoDate' object
+     * Original inspiration from https://github.com/chuckcfs/CodeIgniter-MongoDB
+     * 
+     * @param   mixed           Either a unix timestamp(int) or a string based date. Suggest format yyyy/mm/dd
+     * @return  MongoDate       The date object, access the 'sec' property for the timestamp
+     * @access  public
+     */
+    public function generate_date($param = null) {
+        if($param) {
+            is_string($param) ? $date = new MongoDate(strtotime($param)) : $date = new MongoDate($param);
+        } else {
+            $date = new MongoDate();
+        }
+        return $date;
     }
 
 	/**
