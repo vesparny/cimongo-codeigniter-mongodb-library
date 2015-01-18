@@ -1,7 +1,6 @@
 <?php
 
-if (!defined('BASEPATH'))
-        exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 require_once('Cimongo_cursor.php');
 require_once('Cimongo_extras.php');
 /**
@@ -10,12 +9,12 @@ require_once('Cimongo_extras.php');
  * A library to interact with the NoSQL database MongoDB.
  * For more information see http://www.mongodb.org
  *
- * @package		CodeIgniter
- * @author		Alessandro Arnodo | a.arnodo@gmail.com | @vesparny
- * @copyright	Copyright (c) 2012, Alessandro Arnodo.
- * @license		http://www.opensource.org/licenses/mit-license.php
+ * @package	CodeIgniter
+ * @author      Alessandro Arnodo | a.arnodo@gmail.com | @vesparny
+ * @copyright   Copyright (c) 2012, Alessandro Arnodo.
+ * @license	http://www.opensource.org/licenses/mit-license.php
  * @link
- * @version		Version 1.1.0
+ * @version	Version 1.1.0
  *
  */
 
@@ -40,11 +39,12 @@ class Cimongo extends Cimongo_extras {
         }
 
         /**
-         * Fake close function so you can bind $this->db=$this->cimongo
+         * Fake close function so you can bind $this->db=$this->cimongo.
+         * NO LONGER A FAKE.
          *
          */
         public function close() {
-                
+                return $this->close_db();
         }
 
         /**

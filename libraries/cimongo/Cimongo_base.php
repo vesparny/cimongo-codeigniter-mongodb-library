@@ -137,6 +137,14 @@ class Cimongo_base {
 	}
 
 	/**
+	 *
+	 */
+	private function close_db() {
+		$this->db	= NULL;
+        return $this->connection->close();
+	}
+
+	/**
 	 * Create connection string
 	 *
 	 * @since v1.0.0
