@@ -200,6 +200,50 @@ class Cimongo_extras extends Cimongo_base{
 	}
 
 	/**
+     * Utility function that generates a MongoID instance.
+     * Original inspiration from https://github.com/chuckcfs/CodeIgniter-MongoDB
+     *
+     * @param   string          The string representation of the desired ID object
+     * @return  MongoId
+     * @access  public
+     */
+    public function generate_id($id) {
+        return new MongoId($id);
+    }
+
+    /**
+     * Utility function to generate a 'MongoDate' object
+     * Original inspiration from https://github.com/chuckcfs/CodeIgniter-MongoDB
+     * 
+     * @param   mixed           Either a unix timestamp(int) or a string based date. Suggest format yyyy/mm/dd
+     * @return  MongoDate       The date object, access the 'sec' property for the timestamp
+     * @access  public
+     */
+    public function generate_date($param = null) {
+        if($param) {
+            is_string($param) ? $date = new MongoDate(strtotime($param)) : $date = new MongoDate($param);
+        } else {
+            $date = new MongoDate();
+        }
+        return $date;
+    }
+
+    /**
+     * Utility function to generate a 'MongoBinData' object to store a file as part of a document.
+     * You must pass the binary data of the file and not a file path.
+     * 
+     * @param   string          The content of the file to store
+     * @return  MongoBinData    A ready-to-store representation of the binary data
+     * @access  public
+     */
+    public function generate_bindata( $contents ) {
+        if(empty($contents)) {
+            show_error('You must provide the contents a file to this function', 500);
+        }
+        return new MongoBinData( $contents );
+    }
+
+	/**
 	 *	Get the documents where the value of a $field is greater than $x
 	 *  @since v1.0.0
 	 */
