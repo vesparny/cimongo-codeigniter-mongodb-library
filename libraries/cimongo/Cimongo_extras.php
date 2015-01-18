@@ -200,6 +200,17 @@ class Cimongo_extras extends Cimongo_base{
 	}
 
 	/**
+     * Utility function that generates a MongoID instance
+     *
+     * @param   string          The string representation of the desired ID object
+     * @return  MongoId
+     * @access  public
+     */
+    public function generate_id($id) {
+        return new MongoId($id);
+    }
+
+	/**
 	 *	Get the documents where the value of a $field is greater than $x
 	 *  @since v1.0.0
 	 */
