@@ -96,7 +96,7 @@ Available Functions
 	Author
 ------------------- 
 
-####Alessandro Arnodo
+#### Alessandro Arnodo
 
 +	[@vesparny](https://twitter.com/vesparny)
 
